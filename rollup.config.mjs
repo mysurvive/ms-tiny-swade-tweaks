@@ -6,7 +6,7 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 export default () => ({
-  input: "src/module/exploit-vulnerability.js",
+  input: "src/module/ms-tiny-swade-tweaks.js",
   output: {
     dir: "dist/module",
     format: "es",
