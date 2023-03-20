@@ -84,9 +84,9 @@ function gainCustomPP() {
                 ? (newValue = parseInt(powerPoints[i].max))
                 : (newValue = currentPP + ppToAdd);
               updatePath = `system.powerPoints.${i}.value`;
-              var updates = {};
-              updates[updatePath] = newValue;
-              a.update(updates);
+              var allUpdates = {};
+              allUpdates[updatePath] = newValue;
+              a.update(allUpdates);
             }
             return;
           } else {
@@ -127,9 +127,9 @@ function gainCustomPP() {
                 ? (newValue = parseInt(powerPoints[i].max))
                 : (newValue = currentPP + ppToAdd);
               updatePath = `system.powerPoints.${i}.value`;
-              var updates = {};
-              updates[updatePath] = newValue;
-              a.update(updates);
+              var allUpdates = {};
+              allUpdates[updatePath] = newValue;
+              a.update(allUpdates);
             }
             return;
           } else {
