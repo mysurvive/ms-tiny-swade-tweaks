@@ -15,13 +15,13 @@ Hooks.on("renderCharacterSheet", (_, html) => {
     '<div class="pp-buttons" style="display: flex; justify-content: center; align-items: center;"></div>'
   );
   const customPPGain = $(
-    `<button class="custom-pp-button"><i class="fa-solid fa-square-plus"></i></button>`
+    `<button class="custom-pp-button" data-tooltip="Add a custom amount of PP or add PP via Benny" data-tooltip-direction="UP"><i class="fa-solid fa-square-plus"></i></button>`
   )
     .off("click")
     .on("click", gainCustomPP);
 
   const hourlyPPGain = $(
-    `<button class="hourly-pp-button"><i class="fa-solid fa-clock"> ${amountToRegain}</i></button>`
+    `<button class="hourly-pp-button" data-tooltip="Add PP from resting" data-tooltip-direction="UP"><i class="fa-solid fa-clock"> ${amountToRegain}</i></button>`
   )
     .off("click")
     .on("click", function () {
@@ -29,7 +29,7 @@ Hooks.on("renderCharacterSheet", (_, html) => {
     });
 
   const refreshPPButton = $(
-    '<button class="refresh-pp-button"><i class="fa-solid fa-rotate-right"></i></button>'
+    '<button class="refresh-pp-button" data-tooltip="Refresh all PP" data-tooltip-direction="UP"><i class="fa-solid fa-rotate-right"></i></button>'
   )
     .off("click")
     .on("click", resetAllPP);
