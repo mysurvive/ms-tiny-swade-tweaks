@@ -28,9 +28,9 @@ Hooks.on("renderCharacterSheet", (_, html) => {
 function gainCustomPP() {
   const a = canvas.tokens.controlled[0].actor;
   const dgContent = $(
-    `<div><p>Enter a number of power points to add</p><br><label for="PP">PP:</label><input type="number" id="PwrPts" name="PP" placeholder="Enter amount of PP"></div>`
+    `<div><p>Enter a number of power points to add</p><br><label for="PP"></label><input type="number" id="PwrPts" name="PP" placeholder="Enter amount of PP"></div>`
   );
-  const dg = new Dialog({
+  new Dialog({
     title: "Regain Power Points",
     content: dgContent.html(),
     buttons: {
@@ -41,10 +41,10 @@ function gainCustomPP() {
           const powerPoints = a.system.powerPoints;
           for (const i in powerPoints) {
             const currentPP = parseInt(powerPoints[i].value);
-            let newValue = currentPP + ppToAdd;
-            newValue >= parseInt(powerPoints[i].max)
+            let newValue;
+            currentPP + ppToAdd >= parseInt(powerPoints[i].max)
               ? (newValue = parseInt(powerPoints[i].max))
-              : (newValue = newValue);
+              : (newValue = currentPP + ppToAdd);
             const updatePath = `system.powerPoints.${i}.value`;
             var updates = {};
             updates[updatePath] = newValue;
@@ -61,10 +61,10 @@ function gainHourlyPP(regain) {
   const powerPoints = a.system.powerPoints;
   for (const i in powerPoints) {
     const currentPP = parseInt(powerPoints[i].value);
-    let newValue = currentPP + regain;
-    newValue >= parseInt(powerPoints[i].max)
+    let newValue;
+    currentPP + regain >= parseInt(powerPoints[i].max)
       ? (newValue = parseInt(powerPoints[i].max))
-      : (newValue = newValue);
+      : (newValue = currentPP + regain);
     const updatePath = `system.powerPoints.${i}.value`;
     var updates = {};
     updates[updatePath] = newValue;
