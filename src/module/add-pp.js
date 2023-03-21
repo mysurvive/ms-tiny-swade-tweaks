@@ -1,44 +1,46 @@
 Hooks.on("renderCharacterSheet", (_, html) => {
-  const a = canvas.tokens.controlled[0].actor;
+  if (!game.settings.get("swade", "noPowerPoints")) {
+    const a = canvas.tokens.controlled[0].actor;
 
-  var amountToRegain = 5;
+    var amountToRegain = 5;
 
-  if (a.items.some((i) => i.name === "Rapid Recharge")) {
-    amountToRegain = 10;
+    if (a.items.some((i) => i.name === "Rapid Recharge")) {
+      amountToRegain = 10;
+    }
+    if (a.items.some((i) => i.name === "Improved Rapid Recharge")) {
+      amountToRegain = 20;
+    }
+
+    const powersList = html.find(".sheet-body .tab.powers");
+    const ppButtonWrapper = $(
+      '<div class="pp-buttons" style="display: flex; justify-content: center; align-items: center;"></div>'
+    );
+    const customPPGain = $(
+      `<button class="custom-pp-button" data-tooltip="Add a custom amount of PP or add PP via Benny" data-tooltip-direction="UP"><i class="fa-solid fa-square-plus"></i></button>`
+    )
+      .off("click")
+      .on("click", gainCustomPP);
+
+    const hourlyPPGain = $(
+      `<button class="hourly-pp-button" data-tooltip="Add PP from resting" data-tooltip-direction="UP"><i class="fa-solid fa-clock"> ${amountToRegain}</i></button>`
+    )
+      .off("click")
+      .on("click", function () {
+        gainHourlyPP(amountToRegain);
+      });
+
+    const refreshPPButton = $(
+      '<button class="refresh-pp-button" data-tooltip="Refresh all PP" data-tooltip-direction="UP"><i class="fa-solid fa-rotate-right"></i></button>'
+    )
+      .off("click")
+      .on("click", resetAllPP);
+
+    customPPGain.appendTo(ppButtonWrapper);
+    hourlyPPGain.appendTo(ppButtonWrapper);
+    refreshPPButton.appendTo(ppButtonWrapper);
+
+    ppButtonWrapper.prependTo(powersList);
   }
-  if (a.items.some((i) => i.name === "Improved Rapid Recharge")) {
-    amountToRegain = 20;
-  }
-
-  const powersList = html.find(".sheet-body .tab.powers");
-  const ppButtonWrapper = $(
-    '<div class="pp-buttons" style="display: flex; justify-content: center; align-items: center;"></div>'
-  );
-  const customPPGain = $(
-    `<button class="custom-pp-button" data-tooltip="Add a custom amount of PP or add PP via Benny" data-tooltip-direction="UP"><i class="fa-solid fa-square-plus"></i></button>`
-  )
-    .off("click")
-    .on("click", gainCustomPP);
-
-  const hourlyPPGain = $(
-    `<button class="hourly-pp-button" data-tooltip="Add PP from resting" data-tooltip-direction="UP"><i class="fa-solid fa-clock"> ${amountToRegain}</i></button>`
-  )
-    .off("click")
-    .on("click", function () {
-      gainHourlyPP(amountToRegain);
-    });
-
-  const refreshPPButton = $(
-    '<button class="refresh-pp-button" data-tooltip="Refresh all PP" data-tooltip-direction="UP"><i class="fa-solid fa-rotate-right"></i></button>'
-  )
-    .off("click")
-    .on("click", resetAllPP);
-
-  customPPGain.appendTo(ppButtonWrapper);
-  hourlyPPGain.appendTo(ppButtonWrapper);
-  refreshPPButton.appendTo(ppButtonWrapper);
-
-  ppButtonWrapper.prependTo(powersList);
 });
 
 function gainCustomPP() {
